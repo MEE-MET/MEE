@@ -25,7 +25,7 @@
 
 10. Resolve all merge conflicts.
 
-11. **REBASE** your pull request (branch) onto main (merge with rebase option).
+11. Merge your branch into main and close the pull request (if possible). **AS OF 07.12.2023 ONLY MERGE BY REBASE IS POSSIBLE**
 
 ## Programming rules
 
