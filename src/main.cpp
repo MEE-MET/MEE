@@ -1,24 +1,22 @@
 #include <SFML/Graphics.hpp>
+#include "Circle.h"
 
 auto test(sf::RenderTarget& target) -> void;
 
-int main()
-{
+int main() {
     auto window = sf::RenderWindow{ { 1920u, 1080u }, "PhysicsEngine" };
     window.setFramerateLimit(144);
 
-    while (window.isOpen())
-    {
-        for (auto event = sf::Event{}; window.pollEvent(event);)
-        {
-            if (event.type == sf::Event::Closed)
-            {
+    while (window.isOpen()) {
+        for (auto event = sf::Event{}; window.pollEvent(event);) {
+            if (event.type == sf::Event::Closed) {
                 window.close();
             }
         }
 
         window.clear();
-        test(window);
+        Object circle(75.0f, {960.0f, 540.0f});
+        circle.show(window);
         window.display();
     }
 }
