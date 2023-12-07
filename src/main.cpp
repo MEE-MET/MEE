@@ -15,7 +15,7 @@ int main() {
         }
 
         window.clear();
-        Object circle(75.0f, {960.0f, 540.0f});
+        Particle circle(75.0f, {960.0f, 540.0f});
         circle.show(window);
         window.display();
     }
