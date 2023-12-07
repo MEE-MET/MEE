@@ -8,7 +8,8 @@
 
 2. If the feature you want to add hasn't been discussed inform the team of your idea and discuss wether it is necessary or even doable without huge refactors of the codebase.
 
-3. Create a branch for you're feature/fix. **PUSHING ANYTHING DIRECTLY TO MAIN BRANCH (without pull requests) IS HEREBY DISABLED FROM 07.12.2023 UNTILL FURTHER NOTICE**.
+3. Create a branch for you're feature/fix and [link it to the issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue). **PUSHING ANYTHING DIRECTLY TO MAIN BRANCH (without pull requests) IS HEREBY DISABLED FROM 07.12.2023 UNTILL FURTHER NOTICE**.
+
 
 4. Work on your feature, commit, etc. KEEP TO THE RULES
 
