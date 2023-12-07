@@ -87,3 +87,7 @@ Aby odpalić program należy użyć:
 ```
 	./build/bin/Release/PhysicsEngine.exe
 ```
+
+## Pipeline
+### Jobs: 
+- build - Checks project build on Linux, Mac OS and Windows. Runs of workflow_dispatch ([trigger manually](https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow#running-a-workflow))
