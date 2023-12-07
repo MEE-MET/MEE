@@ -1,10 +1,10 @@
 #include <SFML/Graphics.hpp>
 
 /**
- * The Object class represents a circle in a 2D space, using the Simple and Fast Multimedia Library (SFML).
+ * The Particle class represents a circle in a 2D space, using the Simple and Fast Multimedia Library (SFML).
  * It encapsulates properties such as radius, position, fill color, outline color, and outline thickness of the circle.
  */
-class Object {
+class Particle {
 private:
     float radius;
     float outline_thickness = 1.0f;
@@ -14,7 +14,7 @@ private:
     sf::Color outline_color = sf::Color::Black;
 
 public:
-    Object(float radius, sf::Vector2f position) : radius(radius), position(position) {
+    Particle(float radius, sf::Vector2f position) : radius(radius), position(position) {
         shape.setRadius(radius);
         shape.setPosition(position);
         shape.setFillColor(fill_color);
