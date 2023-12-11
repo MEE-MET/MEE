@@ -15,7 +15,11 @@ public:
     sf::Color fill_color = sf::Color::Magenta;
     sf::Color outline_color = sf::Color::Black;
 
-    Particle(float radius, sf::Vector2f position) : radius(radius), position(position), position_last(position), acceleration(0.0f, 0.0f) {
+    Particle(float radius, sf::Vector2f position)
+    : radius(radius)
+    , position(position)
+    , position_last(position)
+    , acceleration(0.0f, 0.0f) {
         shape.setRadius(radius);
         shape.setPosition(position);
         shape.setFillColor(fill_color);
@@ -45,6 +49,11 @@ public:
     void setVelocity(sf::Vector2f v, float dt)
     {
         position_last = position - (v * dt);
+    }
+
+    void accelerate(sf::Vector2f a)
+    {
+        acceleration +=a;
     }
 
 };
