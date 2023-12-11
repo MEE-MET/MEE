@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <cmath>
 #include "Circle.h"
 
 class Solver {
@@ -15,11 +16,13 @@ public:
         frame_dt = 1.0f / static_cast<float>(rate);
     }
 
+
     void update()
     {
         time += frame_dt;
         const float step_dt = getStepDt();
         for (uint32_t i{sub_steps}; i--;) {
+            applyGravity();
             checkCollisions(step_dt);
             applyConstraint();
             updateObjects(step_dt);
@@ -74,11 +77,19 @@ public:
 
 private:
     uint32_t                  sub_steps          = 1;
+    sf::Vector2f              gravity            = {0.0f, 1000.0f};
     sf::Vector2f              constraint_center;
     float                     constraint_radius  = 100.0f;
     std::vector<Particle>     objects;
     float                     time               = 0.0f;
     float                     frame_dt           = 0.0f;
+
+    void applyGravity()
+    {
+        for (auto& obj : objects) {
+            obj.accelerate(gravity);
+        }
+    }
 
     void checkCollisions(float dt)
     {
