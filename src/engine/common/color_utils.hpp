@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <cmath>
+
 #include "utils.hpp"
 
 struct ColorUtils {
