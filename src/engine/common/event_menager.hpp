@@ -68,23 +68,17 @@ public:
             this->addEventCallback(sf::Event::EventType::MouseButtonReleased, [&](const sf::Event& event) {m_mouse_released_manager.processEvent(event); });
         }
     }
-
+    
     // Attaches new callback to an event
     void addEventCallback(sf::Event::EventType type, EventCallback callback)
     {
         m_events_callmap[type] = callback;
     }
-
+    
     // Adds a key pressed callback
     void addKeyPressedCallback(sf::Keyboard::Key key_code, EventCallback callback)
     {
         m_key_pressed_manager.addCallback(key_code, callback);
-    }
-
-    // Adds a key released callback
-    void addKeyReleasedCallback(sf::Keyboard::Key key_code, EventCallback callback)
-    {
-        m_key_released_manager.addCallback(key_code, callback);
     }
 
     // Adds a mouse pressed callback
@@ -98,7 +92,7 @@ public:
     {
         m_mouse_released_manager.addCallback(button, callback);
     }
-
+    
     // Runs the callback associated with an event
     void executeCallback(const sf::Event& e, EventCallback fallback = nullptr) const
     {
@@ -110,18 +104,7 @@ public:
             fallback(e);
         }
     }
-
-    // Removes a callback
-    void removeCallback(sf::Event::EventType type)
-    {
-        // If event type is registred
-        auto it(m_events_callmap.find(type));
-        if (it != m_events_callmap.end()) {
-            // Remove its associated callback
-            m_events_callmap.erase(it);
-        }
-    }
-
+    
 private:
     SubTypeManager<sf::Keyboard::Key> m_key_pressed_manager;
     SubTypeManager<sf::Keyboard::Key> m_key_released_manager;
@@ -153,29 +136,18 @@ public:
             m_event_map.executeCallback(event, fallback);
         }
     }
-
+    
     // Attaches new callback to an event
     void addEventCallback(sf::Event::EventType type, EventCallback callback)
     {
         m_event_map.addEventCallback(type, callback);
     }
 
-    // Removes a callback
-    void removeCallback(sf::Event::EventType type)
-    {
-        m_event_map.removeCallback(type);
-    }
 
     // Adds a key pressed callback
     void addKeyPressedCallback(sf::Keyboard::Key key, EventCallback callback)
     {
         m_event_map.addKeyPressedCallback(key, callback);
-    }
-
-    // Adds a key released callback
-    void addKeyReleasedCallback(sf::Keyboard::Key key, EventCallback callback)
-    {
-        m_event_map.addKeyReleasedCallback(key, callback);
     }
 
     // Adds a mouse pressed callback
@@ -190,21 +162,12 @@ public:
         m_event_map.addMouseReleasedCallback(button, callback);
     }
 
-    sf::Window& getWindow()
-    {
-        return m_window;
-    }
-
     sf::Vector2f getFloatMousePosition() const
     {
         const sf::Vector2i mouse_position = sf::Mouse::getPosition(m_window);
         return { static_cast<float>(mouse_position.x), static_cast<float>(mouse_position.y) };
     }
 
-    sf::Vector2i getMousePosition() const
-    {
-        return sf::Mouse::getPosition(m_window);
-    }
 
 private:
     sf::Window& m_window;
