@@ -1,4 +1,5 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
 #include "render/viewport_handler.hpp"
 #include "common/event_manager.hpp"
@@ -23,7 +24,7 @@ public:
     {
         m_viewport_handler.setZoom(zoom);
     }
-    
+
     void registerCallbacks(sfev::EventManager& event_manager)
     {
         event_manager.addEventCallback(sf::Event::Closed, [&](sfev::CstEv) { m_window.close(); });
@@ -47,21 +48,21 @@ public:
         render_states.transform = m_viewport_handler.getTransform();
         m_window.draw(drawable, render_states);
     }
-    
+
     void clear(sf::Color color = sf::Color::Black)
     {
         m_window.clear(color);
     }
-    
+
     void display()
     {
         m_window.display();
     }
-    
+
 private:
     sf::RenderWindow& m_window;
     ViewportHandler m_viewport_handler;
-    
+
     friend class WindowContextHandler;
 };
 
@@ -79,17 +80,17 @@ public:
         m_window.setFramerateLimit(60);
         m_render_context.registerCallbacks(m_event_manager);
     }
-    
+
     void processEvents()
     {
         m_event_manager.processEvents();
     }
-    
+
     bool isRunning() const
     {
         return m_window.isOpen();
     }
-    
+
     bool run()
     {
         processEvents();
@@ -110,7 +111,7 @@ public:
     {
         m_window.setFramerateLimit(framerate);
     }
-    
+
 private:
     sf::RenderWindow m_window;
     sfev::EventManager m_event_manager;

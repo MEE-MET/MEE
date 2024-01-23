@@ -1,12 +1,12 @@
 #pragma once
-#include "collision_grid.hpp"
-#include "engine\utils.hpp"
 
+#include "collision_grid.hpp"
+#include "engine/common/utils.hpp"
 
 struct PhysicObject {
 /**
  * @brief Represents a physics object in a simulation.
- * 
+ *
  * This class stores the position, last position, acceleration, and color of a physics object.
  * It provides a method to update the object's position based on the current acceleration and time step.
  */
@@ -17,7 +17,7 @@ struct PhysicObject {
 
     /**
      * @brief Represents a physics object.
-     * 
+     *
      * This class serves as a base class for all physics objects in the system.
      * It provides a default constructor.
      */
@@ -25,7 +25,7 @@ struct PhysicObject {
 
     /**
      * @brief Constructor that initializes the position of the physics object.
-     * 
+     *
      * @param position_ The initial position of the physics object.
      */
     explicit
@@ -36,7 +36,7 @@ struct PhysicObject {
 
     /**
      * @brief Updates the position of the physics object based on the current acceleration and time step.
-     * 
+     *
      * @param dt The time step for the update.
      */
     void update(float dt)
