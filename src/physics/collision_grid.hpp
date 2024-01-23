@@ -2,8 +2,8 @@
 #pragma once
 
 #include <cstdint>
-#include "../engine/vec.hpp"
-#include "../engine/grid.hpp"
+#include "../engine/common/vec.hpp"
+#include "../engine/common/grid.hpp"
 
 struct CollisionCell {
     static constexpr uint8_t cell_capacity = 4;
