@@ -8,6 +8,12 @@
 #include "engine/common/index_vector.hpp"
 #include "thread_pool/thread_pool.hpp"
 
+/**
+ * @brief Represents a physics solver.
+ *
+ * This class stores the physics objects in a simulation, and provides methods to update the simulation.
+ * It also stores a collision grid, which is used to detect collisions between physics objects.
+ */
 struct PhysicSolver
 {
     CIVector<PhysicObject> objects;
@@ -19,6 +25,12 @@ struct PhysicSolver
     uint32_t        sub_steps;
     tp::ThreadPool& thread_pool;
 
+    /**
+     * @brief Construct a new Physic Solver object
+     * 
+     * @param size size of the world
+     * @param tp thread pool to use
+     */
     PhysicSolver(IVec2 size, tp::ThreadPool& tp)
         : grid{size.x, size.y}
         , world_size{to<float>(size.x), to<float>(size.y)}
@@ -28,7 +40,12 @@ struct PhysicSolver
         grid.clear();
     }
 
-    // Checks if two atoms are colliding and if so create a new contact
+    /**
+     * @brief Checks if two atoms are colliding and if so create a new contact
+     * 
+     * @param atom_1_idx index of the first atom
+     * @param atom_2_idx index of the second atom
+     */
     void solveContact(uint32_t atom_1_idx, uint32_t atom_2_idx)
     {
         constexpr float response_coef = 1.0f;
@@ -47,6 +64,12 @@ struct PhysicSolver
         }
     }
 
+    /**
+     * @brief Checks if an atom is colliding with all the atoms in a cell
+     * 
+     * @param atom_idx index of the atom
+     * @param c cell to check
+     */
     void checkAtomCellCollisions(uint32_t atom_idx, const CollisionCell& c)
     {
         for (uint32_t i{0}; i < c.objects_count; ++i) {
@@ -54,6 +77,12 @@ struct PhysicSolver
         }
     }
 
+    /**
+     * @brief Checks if an atom is colliding with all the atoms in a cell
+     * 
+     * @param c cell to check
+     * @param index index of the cell
+     */
     void processCell(const CollisionCell& c, uint32_t index)
     {
         for (uint32_t i{0}; i < c.objects_count; ++i) {
@@ -70,6 +99,12 @@ struct PhysicSolver
         }
     }
 
+    /**
+     * @brief Checks if an atom is colliding with all the atoms in a cell
+     * 
+     * @param start start index
+     * @param end end index
+     */
     void solveCollisionThreaded(uint32_t start, uint32_t end)
     {
         for (uint32_t idx{start}; idx < end; ++idx) {
@@ -77,7 +112,10 @@ struct PhysicSolver
         }
     }
 
-    // Find colliding atoms
+    /**
+     * @brief Find colliding atoms
+     * 
+     */
     void solveCollisions()
     {
         // Multi-thread grid
@@ -114,12 +152,21 @@ struct PhysicSolver
     }
 
 
-    // Add a new object to the solver
+    /**
+     * @brief Add a new object to the solver
+     * 
+     * @param pos position of the object
+     */
     uint64_t createObject(Vec2 pos)
     {
         return objects.emplace_back(pos);
     }
 
+    /**
+     * @brief Update the solver
+     * 
+     * @param dt time step
+     */
     void update(float dt)
     {
         // Perform the sub steps
@@ -131,6 +178,10 @@ struct PhysicSolver
         }
     }
 
+    /**
+     * @brief Add all objects to the grid
+     * 
+     */
     void addObjectsToGrid()
     {
         grid.clear();
@@ -145,6 +196,11 @@ struct PhysicSolver
         }
     }
 
+    /**
+     * @brief Update all objects
+     * 
+     * @param dt time step
+     */
     void updateObjects_multi(float dt)
     {
         thread_pool.dispatch(to<uint32_t>(objects.size()), [&](uint32_t start, uint32_t end){

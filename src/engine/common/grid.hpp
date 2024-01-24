@@ -3,6 +3,11 @@
 #include <array>
 
 
+/**
+ * @brief Grid of any type
+ * 
+ * @tparam T type of the grid
+ */
 template<typename T>
 struct Grid
 {
