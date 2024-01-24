@@ -11,13 +11,20 @@ using ID = uint64_t;
 template<typename T>
 struct PRef;
 
+/**
+ * @brief Slot of an index vector
+ * 
+ */
 struct Slot
 {
     ID id;
     ID data_id;
 };
 
-
+/**
+ * @brief Generic provider interface
+ * 
+ */
 struct GenericProvider
 {
     virtual ~GenericProvider()
@@ -30,14 +37,21 @@ struct GenericProvider
     virtual bool  isValid(civ::ID, uint64_t validity_id) const = 0;
 };
 
-
+/**
+ * @brief Slot metadata
+ * 
+ */
 struct SlotMetadata
 {
     ID rid;
     ID op_id;
 };
 
-
+/**
+ * @brief Vector of objects with a unique ID
+ * 
+ * @tparam T 
+ */
 template<typename T>
 struct Vector : public GenericProvider
 {

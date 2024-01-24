@@ -1,6 +1,11 @@
 #include "renderer.hpp"
 
-
+/**
+ * @brief Construct a new Renderer:: Renderer object
+ * 
+ * @param solver_ Solver to render
+ * @param tp thread pool to use
+ */
 Renderer::Renderer(PhysicSolver& solver_, tp::ThreadPool& tp)
     : solver{solver_}
     , world_va{sf::Quads, 4}
@@ -14,6 +19,11 @@ Renderer::Renderer(PhysicSolver& solver_, tp::ThreadPool& tp)
     object_texture.setSmooth(true);
 }
 
+/**
+ * @brief Render the solver
+ * 
+ * @param context render context
+ */
 void Renderer::render(RenderContext& context)
 {
     context.draw(world_va);
@@ -26,6 +36,10 @@ void Renderer::render(RenderContext& context)
     context.draw(objects_va, states);
 }
 
+/**
+ * @brief Initialize the world vertex array
+ * 
+ */
 void Renderer::initializeWorldVA()
 {
     world_va[0].position = {0.0f               , 0.0f};
@@ -41,6 +55,10 @@ void Renderer::initializeWorldVA()
     world_va[3].color = background_color;
 }
 
+/**
+ * @brief Update the particles vertex array
+ * 
+ */
 void Renderer::updateParticlesVA()
 {
     objects_va.resize(solver.objects.size() * 4);

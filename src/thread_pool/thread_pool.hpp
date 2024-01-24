@@ -16,6 +16,12 @@ struct TaskQueue
     std::mutex                        m_mutex;
     std::atomic<uint32_t>             m_remaining_tasks = 0;
 
+    /**
+     * @brief Add a task to the queue
+     * 
+     * @tparam TCallback callback type
+     * @param callback callback to add
+     */
     template<typename TCallback>
     void addTask(TCallback&& callback)
     {
@@ -24,6 +30,11 @@ struct TaskQueue
         m_remaining_tasks++;
     }
 
+    /**
+     * @brief Get a task from the queue
+     * 
+     * @param target_callback callback to fill
+     */
     void getTask(std::function<void()>& target_callback)
     {
         {
@@ -36,11 +47,17 @@ struct TaskQueue
         }
     }
 
+    /**
+     * @brief Wait for a task to be available
+     */
     static void wait()
     {
         std::this_thread::yield();
     }
 
+    /**
+     * @brief Wait for all tasks to be completed
+     */
     void waitForCompletion() const
     {
         while (m_remaining_tasks > 0) {
@@ -48,6 +65,9 @@ struct TaskQueue
         }
     }
 
+    /**
+     * @brief Notify that a task has been completed
+     */
     void workDone()
     {
         m_remaining_tasks--;
@@ -64,6 +84,12 @@ struct Worker
 
     Worker() = default;
 
+    /**
+     * @brief Construct a new Worker object
+     * 
+     * @param queue task queue
+     * @param id worker id
+     */
     Worker(TaskQueue& queue, uint32_t id)
         : m_id{id}
         , m_queue{&queue}
@@ -73,6 +99,9 @@ struct Worker
         });
     }
 
+    /**
+     * @brief Run the worker
+     */
     void run()
     {
         while (m_running) {
@@ -87,6 +116,9 @@ struct Worker
         }
     }
 
+    /**
+     * @brief Stop the worker
+     */
     void stop()
     {
         m_running = false;
@@ -100,6 +132,11 @@ struct ThreadPool
     TaskQueue           m_queue;
     std::vector<Worker> m_workers;
 
+    /**
+     * @brief Construct a new Thread Pool object
+     * 
+     * @param thread_count number of threads
+     */
     explicit
     ThreadPool(uint32_t thread_count)
         : m_thread_count{thread_count}
@@ -110,6 +147,9 @@ struct ThreadPool
         }
     }
 
+    /**
+     * @brief Destroy the Thread Pool object
+     */
     virtual ~ThreadPool()
     {
         for (Worker& worker : m_workers) {
@@ -117,17 +157,32 @@ struct ThreadPool
         }
     }
 
+    /**
+     * @brief Add a task to the queue
+     * 
+     * @tparam TCallback callback type
+     * @param callback callback to add
+     */
     template<typename TCallback>
     void addTask(TCallback&& callback)
     {
         m_queue.addTask(std::forward<TCallback>(callback));
     }
 
+    /**
+     * @brief Wait for all tasks to be completed
+     */
     void waitForCompletion() const
     {
         m_queue.waitForCompletion();
     }
 
+    /**
+     * @brief Dispatch a task to the workers
+     * 
+     * @tparam TCallback callback type
+     * @param callback callback to dispatch
+     */
     template<typename TCallback>
     void dispatch(uint32_t element_count, TCallback&& callback)
     {

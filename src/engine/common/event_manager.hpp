@@ -17,9 +17,14 @@ using CstEv = const sf::Event&;
 
 
 /*
-    This class handles subtyped events like keyboard or mouse events
-    The unpack function allows to get relevant information from the processed event
+
 */
+
+/**
+ * This class handles subtyped events like keyboard or mouse events
+ * The unpack function allows to get relevant information from the processed event
+ * @tparam T 
+ */
 template<typename T>
 class SubTypeManager
 {
@@ -113,11 +118,11 @@ private:
     EventCallbackMap<sf::Event::EventType> m_events_callmap;
 };
 
-
-/*
-    This class handles any type of event and call its associated callbacks if any.
-    To process key event in a more convenient way its using a KeyManager
-*/
+/**
+ * This class handles any type of event and call its associated callbacks if any.
+ * To process key event in a more convenient way its using a KeyManager
+ * 
+ */
 class EventManager
 {
 public:
@@ -127,7 +132,11 @@ public:
     {
     }
 
-    // Calls events' attached callbacks
+    /**
+     * @brief Process events and call their associated callbacks
+     * 
+     * @param fallback callback to call if no callback is associated with the event
+     */
     void processEvents(EventCallback fallback = nullptr) const
     {
         // Iterate over events
@@ -136,32 +145,56 @@ public:
             m_event_map.executeCallback(event, fallback);
         }
     }
-    
-    // Attaches new callback to an event
+
+    /**
+     * @brief Attaches new callback to an event
+     * 
+     * @param type type of the event
+     * @param callback callback to call when the event is triggered
+     */
     void addEventCallback(sf::Event::EventType type, EventCallback callback)
     {
         m_event_map.addEventCallback(type, callback);
     }
 
-
-    // Adds a key pressed callback
+    /**
+     * @brief Adds a key pressed callback
+     * 
+     * @param key  key to listen to
+     * @param callback callback to call when the key is pressed
+     */
     void addKeyPressedCallback(sf::Keyboard::Key key, EventCallback callback)
     {
         m_event_map.addKeyPressedCallback(key, callback);
     }
 
-    // Adds a mouse pressed callback
+    /**
+     * @brief Adds a mouse pressed callback
+     * 
+     * @param button mouse button to listen to
+     * @param callback callback to call when the button is pressed
+     */
     void addMousePressedCallback(sf::Mouse::Button button, EventCallback callback)
     {
         m_event_map.addMousePressedCallback(button, callback);
     }
 
-    // Adds a mouse released callback
+    /**
+     * @brief Adds a mouse released callback
+     * 
+     * @param button mouse button to listen to
+     * @param callback callback to call when the button is released
+     */
     void addMouseReleasedCallback(sf::Mouse::Button button, EventCallback callback)
     {
         m_event_map.addMouseReleasedCallback(button, callback);
     }
 
+    /**
+     * @brief Get the mouse position
+     * 
+     * @return sf::Vector2i mouse position
+     */
     sf::Vector2f getFloatMousePosition() const
     {
         const sf::Vector2i mouse_position = sf::Mouse::getPosition(m_window);
